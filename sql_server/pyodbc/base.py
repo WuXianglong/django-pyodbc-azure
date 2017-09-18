@@ -307,6 +307,11 @@ class DatabaseWrapper(BaseDatabaseWrapper):
                 conn = Database.connect(connstr,
                                         unicode_results=unicode_results,
                                         timeout=timeout)
+                import pyodbc
+                conn.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
+                conn.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
+                conn.setdecoding(pyodbc.SQL_WMETADATA, encoding='utf-16le')
+                conn.setencoding(encoding='utf-8')
             except Exception as e:
                 for error_number in self._transient_error_numbers:
                     if error_number in e.args[1]:
